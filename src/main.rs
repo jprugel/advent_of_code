@@ -1,5 +1,5 @@
-use std::str::Lines;
 use day_one::convert;
+use std::str::Lines;
 
 pub fn main() {
     let doc = std::fs::read_to_string("./day_one/src/input.txt").expect("Failed to read doc");

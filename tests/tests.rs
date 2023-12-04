@@ -1,4 +1,3 @@
-
 #[cfg(test)]
 pub mod tests {
     use day_one::convert;
