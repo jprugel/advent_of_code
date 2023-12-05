@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-const PATTERNS: [(&'static str, i32); 19] = [
+const PATTERNS: [(&str, i32); 19] = [
     ("0", 0),
     ("1", 1),
     ("one", 1),
@@ -34,6 +34,6 @@ pub fn convert(line: &str) -> i32 {
     });
     let first = test.iter().min_by_key(|key| *key.0).unwrap().1;
     let last = test.iter().max_by_key(|key| *key.0).unwrap().1;
-    let vec = vec![first, last];
+    let vec = [first, last];
     vec.iter().fold(0, |acc, x| acc * 10 + **x)
 }
