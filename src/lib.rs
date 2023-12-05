@@ -28,7 +28,7 @@ pub fn create_map(input: &str) -> HashMap<&str, i32> {
         .iter()
         .filter_map(|&token| token.parse::<i32>().ok())
         .collect();
-    keys.into_iter().zip(values.into_iter()).collect()
+    keys.into_iter().zip(values).collect()
 }
 
 pub fn merge_greatest_map(vec: Vec<HashMap<&str, i32>>) -> HashMap<&str, i32> {

@@ -10,6 +10,6 @@ fn main() {
     let games: Vec<i32> = lines.map(|line| get_valid_id(line, LAW)).collect();
     println!("Total of game Id's: {:?}", games.iter().sum::<i32>());
     let lines: Lines = doc.lines();
-    let products: Vec<i32> = lines.map(|line| get_minimum_product(line)).collect();
+    let products: Vec<i32> = lines.map(get_minimum_product).collect();
     println!("Total of game products: {:?}", products.iter().sum::<i32>());
 }
