@@ -1,34 +1,34 @@
 // Purpose: Parts are not valid if they do not have an adjacent symbol that is not a "."
 pub fn get_sum_valid_parts(doc: &str) -> i32 {
-    let doc_parts: Vec<&str> = doc
-        .split('.')
-        .collect();
-    let filtered: Vec<String> = doc_parts
+    let number_slices = get_number_slices(doc);
+    let ranges: Vec<(usize, usize)> = number_slices
         .iter()
-        .map(|&part| part.chars().filter(|&c| c.is_digit(10)).collect::<String>())
+        .map(|number| get_ranges_from_needle(doc, number))
         .collect();
-    let test: Vec<&str> = filtered.iter().map(|s| s.as_str()).collect();
-    let refiltered: Vec<&str> = test
-        .into_iter()
-        .filter(|&part| part.parse::<i32>().is_ok())
-        .collect();
-    dbg!(&refiltered);
-    let ranges: Vec<(usize, usize)> = refiltered
-        .iter()
-        .map(|&number| get_ranges_from_needle(doc, number))
-        .collect();
-    let long_ranges: Vec<(usize, usize)> = ranges
-        .into_iter()
-        .map(expand_range)
-        .collect();
-    let _filtered_by_symbols: Vec<(usize, usize)> = long_ranges
+    let long_ranges: Vec<(usize, usize)> = ranges.into_iter().map(expand_range).collect();
+    let filtered_by_symbols: Vec<(usize, usize)> = long_ranges
         .into_iter()
         .filter(|&range| {
             (doc[range.0..range.1])
                 .chars()
-                .any(|c| !c.is_digit(10) && c != '.')
-        }).collect();
+                .any(|c| !c.is_ascii_digit() && c != '.')
+        })
+        .collect();
+    dbg!(filtered_by_symbols);
     doc.len() as i32
+}
+
+pub fn get_number_slices(input: &str) -> Vec<String> {
+    let doc_parts: Vec<&str> = input.split('.').collect();
+    let filtered_symbols: Vec<String> = doc_parts
+        .iter()
+        .map(|&part| part.chars().filter(|&c| c.is_ascii_digit()).collect())
+        .collect();
+
+    filtered_symbols
+        .into_iter()
+        .filter(|part| part.parse::<i32>().is_ok())
+        .collect()
 }
 
 pub fn expand_range(input_range: (usize, usize)) -> (usize, usize) {
